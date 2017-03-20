@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.ico"/>
+	<title>Lookup | Nha Trang Bus</title>
+	<link rel="stylesheet" type="text/css" href="assets/stylesheets/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="assets/stylesheets/app.css">
+	<link rel="stylesheet" type="text/css" href="assets/stylesheets/font-awesome.min.css">
+</head>
+<body>
+	<div class="ng-scope">
+		<!-- uiView:  --><div ui-view="" class="ng-scope"><!-- <div ui-view="sidebar"></div>-->
+		<div id="sidebar" ng-class="sidebar.status" class="ng-isolate-scope">
+			<div id="close-sidebar-btn" ng-class="sidebar.status" ng-click="sidebar.changeStatus()" style="display: none;" class="">
+				<!--<i class="fa fa-caret-left"></i>-->
+			</div>
+			<div style="height: 100%;">
+
+				<div class="header">
+					<div id="function-nav-bar" ng-class="{ 'bg-dark-green': sidebar.isTabSelected(1) }" class="bg-dark-green">
+						<div class="nav-bar text-center color-white" ng-class="{active: sidebar.isTabSelected(0) }" ng-click="sidebar.changeTab(0)">
+							<i class="fa fa-search"></i>
+							<span class="font-medium ng-binding">Tra cứu</span>
+						</div>
+						<div class="nav-bar text-center color-white active" ng-class="{active: sidebar.isTabSelected(1) }" ng-click="sidebar.changeTab(1)">
+							<i class="fa fa-map-marker"></i>
+							<span class="font-medium ng-binding">Tìm đường</span>
+						</div>
+					</div>
+
+				</div>
+
+				<!-- uiView:  --><div class="content ng-scope" ui-view="" style="height: 285px;"><!-- uiView:  --><div ui-view="" class="ng-scope"><div class="ng-isolate-scope">
+				<div>
+					<div>
+						<div id="navigate-querybox">
+							<div class="query-box">
+								<div class="input-box pos-relative">
+									<input tabindex="1" id="input-departure" type="text" placeholder="Nhập địa điểm xuất phát, hoặc click lên bản đồ..." ng-model="navigationSearch.departure" ng-click="navigationSearch.focusTextbox(1)" ng-change="navigationSearch.textboxChanged(1)" ng-keyup="navigationSearch.processKey($event)" ng-blur="navigationSearch.textboxLoseFocus(1)" class="ng-pristine ng-untouched ng-valid ng-empty">
+						<!-- <div class="gps pos-absolute" ng-click="navigationSearch.processManualGPS()">
+					</div> -->
+				</div>
+				<div class="input-box pos-relative">
+					<input tabindex="1" id="input-destination" type="text" placeholder="Nhập địa điểm kết thúc" ng-model="navigationSearch.destination" ng-click="navigationSearch.focusTextbox(2)" ng-change="navigationSearch.textboxChanged(2)" ng-keyup="navigationSearch.processKey($event)" ng-blur="navigationSearch.textboxLoseFocus(2)" class="ng-pristine ng-untouched ng-valid ng-empty">
+						<!-- <div class="gps pos-absolute" ng-click="navigationSearch.processManualGPS()">
+					</div> -->
+				</div>
+				<div class="num-change-routes">
+					<p class="font-medium color-white ng-binding">Số tuyến đi tối đa</p>
+					<ul>
+						<li>
+							<div class="num-route-button" ng-class="{active: navigationSearch.isRouteNumberSelected(1)}" ng-click="navigationSearch.changeRouteNumber(1)">
+								<span class="font-normal">1</span>
+							</div>
+						</li>
+						<li>
+							<div class="num-route-button active" ng-class="{active: navigationSearch.isRouteNumberSelected(2)}" ng-click="navigationSearch.changeRouteNumber(2)">
+								<span class="font-normal">2</span>
+							</div>
+						</li>
+						<li>
+							<div class="num-route-button" ng-class="{active: navigationSearch.isRouteNumberSelected(3)}" ng-click="navigationSearch.changeRouteNumber(3)">
+								<span class="font-normal">3</span>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div id="swap-button" class="icon-left" tabindex="2" ng-click="navigationSearch.swapPlaces()">
+					<!-- <div class="circle">
+					</div>
+					<div class="small-circles">
+						<div class="small-circle"></div>
+						<div class="small-circle"></div>
+						<div class="small-circle"></div>
+						<div class="small-circle"></div>
+					</div>
+					<i class="fa fa-map-marker"></i> -->
+				</div>
+				<div id="search-button" class="icon-right" tabindex="1" ng-click="navigationSearch.processQuery()" ng-show="!navigationSearch.navigationCtrl.isLoading">
+					<!-- <i class="fa fa-long-arrow-up up"></i>
+					<i class="fa fa-long-arrow-down down"></i> -->
+				</div>
+				<!-- <div class="spinner" ng-show="!navigationSearch.canProcessQuery">
+				  <div class="double-bounce1"></div>
+				  <div class="double-bounce2"></div>
+				</div> -->
+				<!-- <div class="sk-circle" ng-show="!navigationSearch.canProcessQuery">
+				  <div class="sk-circle1 sk-child"></div>
+				  <div class="sk-circle2 sk-child"></div>
+				  <div class="sk-circle3 sk-child"></div>
+				  <div class="sk-circle4 sk-child"></div>
+				  <div class="sk-circle5 sk-child"></div>
+				  <div class="sk-circle6 sk-child"></div>
+				  <div class="sk-circle7 sk-child"></div>
+				  <div class="sk-circle8 sk-child"></div>
+				  <div class="sk-circle9 sk-child"></div>
+				  <div class="sk-circle10 sk-child"></div>
+				  <div class="sk-circle11 sk-child"></div>
+				  <div class="sk-circle12 sk-child"></div>
+				</div> -->
+				<div class="spinner khoi ng-hide" ng-show="navigationSearch.navigationCtrl.isLoading">
+					<div class="cube1"></div>
+					<div class="cube2"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="prediction-custom" ng-show="navigationSearch.canShowPrediction" style="margin-top: 4px;" class="ng-hide">
+		<!-- ngRepeat: prediction in navigationSearch.predictions -->
+	</div>
+	<div class="showbox navigation-search ng-hide" ng-show="navigationSearch.navigationCtrl.isLoading">
+		<div class="loader">
+			<svg class="circular" viewBox="25 25 50 50">
+				<circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"></circle>
+			</svg>
+		</div>
+	</div>
+	<div class="no-search navigation" ng-show="navigationSearch.gotNoSearch()">
+		<p class="color-grey ng-binding">
+			Nhập địa điểm xuất phát và địa điểm bạn muốn đến. BusMap sẽ tìm và đưa ra cho bạn những cách di chuyển tốt nhất bằng xe buýt.
+		</p>
+	</div>
+	<div class="no-results navigation ng-hide" ng-show="navigationSearch.gotNoResult()">
+		<div>
+			<img src="assets/images/no_result.png" alt="No result">
+		</div>
+		<span class="font-light ng-binding">Không tìm thấy đường đi</span>
+	</div>
+	<div id="navigation-suggestion-list" class="scroller ps-container ng-hide" wheel-propagation="true" wheel-speed="1" min-scrollbar-length="20" ng-show="navigationSearch.gotResult()" style="height: 118px;"><div ng-transclude="">
+		<!-- ngRepeat: suggest in navigationSearch.directionListModel.directions -->
+	</div><div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px;"><div class="ps-scrollbar-x" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px;"><div class="ps-scrollbar-y" style="top: 0px; height: 0px;"></div></div></div>
+</div></div></div>
+</div>
+</div>
+
+<!-- uiView: map --><div ui-view="map" class="ng-scope"><div id="header-bar" class="ng-scope">
+<div id="sidebar-button">
+	<i class="fa fa-bars" style="color: white;font-size: 1.5rem;display: inline-block;cursor:pointer;" ng-click="mapc.closeTab()"></i>
+</div>
+<div id="bus-map-icon">
+	<!--<img src="busmap_icon.ico" alt="icon" height="42px" width="42px">-->
+	<h2 class="font-bold" style="color:white;display:inline-block;cursor:default;" "="">NHATRANGBUS</h2>
+</div>
+<div id="places-search-wrapper" class="">
+	<input tabindex="3" id="places-search-box" type="text" placeholder="Tìm địa điểm..." ng-model="mapc.searchQuery" ng-change="mapc.searchBoxChanged()" ng-keyup="mapc.processKey($event)" style="padding: 0px;" ng-blur="mapc.searchboxLoseFocus(1)" class="ng-pristine ng-valid ng-empty ng-touched">
+	<i class="fa fa-search" ng-class="{ 'blue': mapc.searchQuery.length > 0 }"></i>
+		<!-- <div class="line"></div>
+		<div class="feedback-btn" ng-click="mapc.openFeedback()"></div> -->
+
+		<div id="places-search-prediction" ng-show="mapc.canShowPrediction" class="ng-hide">
+			<!-- ngRepeat: prediction in mapc.predictions -->
+		</div>
+	</div>
+</div>
+<div id="context-menu" class="ng-scope" style="visibility: hidden;">
+	<div id="set-departure" class="context-menu-item">
+		<span style="cursor:default" class="ng-binding">
+			Chọn điểm xuất phát
+		</span>
+	</div>
+	<div id="set-destination" class="context-menu-item">
+		<span style="cursor:default" class="ng-binding">
+			Chọn điểm đến
+		</span>
+	</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+
+</body>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACwmMpDFI4KmGmz-v-Htwf1yv2h47SqeI&libraries=places"></script>
+	<script src="assets/javascripts/jquery.min.js"></script>
+	<script src="assets/javascripts/bootstrap.min.js"></script>
+	<script src="assets/javascripts/app.js"></script>
+</html>
